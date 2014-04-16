@@ -1,0 +1,23 @@
+<div content-for="title">
+  <span>Tipo Pagamento</span>
+</div>
+
+<input type="search" class="form-control app-search" placeholder="Procurar.." />
+
+<div class="scrollable" >
+  <div class="scrollable-content">
+    <div class="list-group">
+      <a ng-repeat="item in aListPgto" href="#add-pgto/{{item.objectId}}" class="list-group-item">
+        {{ item.nome }} <i class="fa fa-edit pull-right"></i>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div bs-panel class="form-actions">
+      <div content-for="navbarAction" duplicate>
+        <div class="btn btn-navbar">
+            <a href="#/add-pgto"><i class="fa fa-plus" ></i> Adicionar</a>
+        </div>
+      </div>
+    </div>

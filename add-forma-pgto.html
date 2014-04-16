@@ -1,0 +1,25 @@
+<div content-for="title">
+    <span>Contas/Cartões</span>
+</div>
+<div class="scrollable">
+    <div class="scrollable-content container section">
+        <form name="pgtoForm">
+            <div bs-panel title="Informações">
+                <input type="hidden" ng-model="id" name="userId" />
+                <input type="text" ng-model="nome" name="userName" label="Nome" bs-input required />
+            </div>
+
+            <div bs-panel class="form-actions">    
+                <button class="btn btn-primary" ng-click="savePgto()">
+                    Salvar
+                </button> 
+                <a href="#/pgto" class="btn btn-primary">
+                    Voltar
+                </a>
+
+            </div>
+        </form>
+
+    </div>
+</div>
+<div content-for="navbarAction" duplicate></div>

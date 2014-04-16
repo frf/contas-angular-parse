@@ -1,0 +1,24 @@
+<div content-for="title">
+    <span>Categoria</span>
+</div>
+<div class="scrollable">
+    <div class="scrollable-content container section" ng-controller="EditCategoriaController">
+        <form novalidate class="simple-form">
+            <div bs-panel title="Informações">
+                <input type="hidden" ng-model="user.id"  />
+                <input type="text" ng-model="user.nome" label="Nome" bs-input required />
+            </div>
+
+            <div bs-panel class="form-actions">    
+                <button class="btn btn-primary" ng-click="update(user)" ng-disabled="form.$invalid || isUnchanged(user)">
+                    Salvar
+                </button> 
+                <a href="#/categoria" class="btn btn-primary">
+                    Voltar
+                </a>
+
+            </div>
+        </form>
+    </div>
+</div>
+<div content-for="navbarAction" duplicate></div>
