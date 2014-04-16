@@ -7,8 +7,13 @@
 <div class="scrollable" >
   <div class="scrollable-content">
     <div class="list-group">
-      <a ng-repeat="item in myObjsLanc" href="#add-lanc/{{item.id}}" class="list-group-item">
-        {{ item.nome }} <i class="fa fa-edit pull-right"></i>
+        {{aListCat}}
+      <a ng-repeat="item in aListLancamento" href="#add-lanc/{{item.objectId}}" class="list-group-item">
+        {{ item.nome }} | 
+        {{ item.pgto }} | 
+        {{ aListCat[item.objectId]}} | 
+        {{ item.data }} | 
+        <i class="fa fa-edit pull-right"></i>
       </a>
     </div>
   </div>

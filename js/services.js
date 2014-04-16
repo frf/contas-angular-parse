@@ -1,5 +1,38 @@
 var services = angular.module('MeusServicos', ['ngResource']);
 
+services.service('LancamentoService', function($http) {
+
+    this.save = function(data,callback) {
+        $http({method: 'POST',
+            url: 'https://api.parse.com/1/classes/Lancamento',
+            headers: {
+                'X-Parse-Application-Id': 'ezwTgQirFdjt1dnPiidr0nV1eqr9ARiOa3h43CgL',
+                'X-Parse-REST-API-Key': '8DeetvMlYKqQ3VI6uHp08oOhpBrDsK3eoYXlTsfx',
+                'Content-Type': 'application/json'
+            },
+            data:{
+                  nome:data.nome,
+                  data:data.data,
+                  categoria:{"__op":"AddRelation","objects":[{"__type":"Pointer","className":"Categoria","objectId":data.categoria}]},
+                  pgto:{"__op":"AddRelation","objects":[{"__type":"Pointer","className":"Pgto","objectId":data.pgto}]}
+                }
+            
+        }).success(callback);
+    };
+    this.getAll = function(callback) {
+        $http({method: 'GET',//where={"post":{"__type":"Pointer","className":"Post","objectId":"8TOXdXf3tz"}}
+            url: 'https://api.parse.com/1/classes/Lancamento',
+            headers: {
+                'X-Parse-Application-Id': 'ezwTgQirFdjt1dnPiidr0nV1eqr9ARiOa3h43CgL',
+                'X-Parse-REST-API-Key': '8DeetvMlYKqQ3VI6uHp08oOhpBrDsK3eoYXlTsfx',
+                'Content-Type': 'application/json'
+                
+            }
+        }).success(callback);
+    };
+    
+    
+});
 services.service('CategoriaService', function($http) {
 
     this.getAll = function(callback) {

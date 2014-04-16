@@ -1,23 +1,22 @@
 <div content-for="title">
-  <span>Novo Lançamento</span>
+  <span>Novo</span>
 </div>
 
 
 <div class="scrollable">
- <div class="scrollable-content container section">
+    <div class="scrollable-content container section" ng-controller="addLancController">
    
-   <form action="" id="">
+     <form name="formLanc">
 
      <div bs-panel title="Informações">
-         <input type="hidden" ng-model="id" />
-       <input type="text" ng-model="nome"    label="Nome" bs-input />
-       <select ng-model="pgto" ng-options="i.nome for i in myPgtos" bs-input label="Forma de Pagamento"/></select>
-       <select ng-model="categoria" ng-options="i.nome for i in myObjs" bs-input label="Categoria"/></select>
-       <input type="date" ng-model="data"        label="Data" bs-input />
-    </div>
+       <input type="hidden" ng-model="id" name="id" />
+       <input type="text" ng-model="lancamento.nome" label="Nome" bs-input required/>
+       <select ng-model="lancamento.pgto" ng-options="i.nome for i in aListPgto" bs-input label="Forma de Pagamento" required/></select>
+       <select ng-model="lancamento.categoria" ng-options="i.nome for i in aListCat" bs-input label="Categoria" required/></select>
+       <input type="date" ng-model="lancamento.data" label="Data" bs-input placeholder="dd/MM/yyyy" required />
+     </div>
     <div bs-panel class="form-actions">
-
-        <button class="btn btn-primary">
+        <button class="btn btn-primary" ng-click="save()">
           Save
         </button>
         <a href="#/lancamento" class="btn btn-primary">
