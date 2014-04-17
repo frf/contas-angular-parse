@@ -1,9 +1,37 @@
 'use strict';
 
 var meusControllers = angular.module('MeusControllers', []);
+var aCategoria = [];
+var aPgto = [];
+
+var getObj = function(id,aObj){
+    console.log(id + " - " + aObj);
+                var log = [];
+                angular.forEach(aObj, function(value, key) {
+                    
+                    if(id == value.objectId){
+                        value.keyId = key;
+                        this.push(value);
+                    }
+                },log);                
+                return log;
+            }
+            
+var getAllLancamentos = function(aObj){
+    var log = [];
+
+    angular.forEach(aObj.results, function(value, key) {
+        console.log(value.categoria);
+        console.log(getObj(value.categoria,aCategoria));
+            value.keyId = key;
+            value.categoriaNome = getObj(value.categoria,aCategoria)[0].nome;
+            this.push(value);
+    },log);                
+    return log;
+}
 
 /* Controllers */
-meusControllers.controller('MainController', function($rootScope, $scope) {
+meusControllers.controller('MainController', function($rootScope, $scope,CategoriaService,PgtoService) {
 
     $rootScope.$on("$routeChangeStart", function() {
         $rootScope.loading = true;
@@ -12,24 +40,65 @@ meusControllers.controller('MainController', function($rootScope, $scope) {
     $rootScope.$on("$routeChangeSuccess", function() {
         $rootScope.loading = false;
     });
-
-});
-
-meusControllers.controller('PgtoController', function($scope, PgtoService) {
-    PgtoService.getAll(function(data) {
-        $scope.aListPgto = data.results;
-    });
-});
-
-meusControllers.controller('CategoriaController', function($scope, CategoriaService) {
+    
     CategoriaService.getAll(function(data) {
-        $scope.aListCat = data.results;
+        aCategoria = data.results;
+    });
+    PgtoService.getAll(function(data) {
+        aPgto = data.results;
     });
 });
 
-meusControllers.controller('EditPgtoController', function($scope, $routeParams) {
-    var oPgto = $scope.aListPgto;
+meusControllers.controller('PgtoController', function($scope) {
+    $scope.aListPgto = aPgto;
+});
+
+meusControllers.controller('CategoriaController', function($scope) {
+    $scope.aListCat = aCategoria;
+});
+
+meusControllers.controller('EditPgtoController', function($scope, $routeParams, $location, PgtoService) {
+    
     $scope.id = $routeParams.id;
+    $scope.master = {};
+    
+    if($routeParams.id != null){
+        var Pgto = getObj($routeParams.id,aPgto);
+        $scope.master = {id:$routeParams.id,nome:Pgto[0].nome,keyId:Pgto[0].keyId};        
+    }
+        
+    $scope.update = function(user) {
+        var Pgto = {
+            objectId:'',
+            nome:""
+        }
+        
+        Pgto.objectId = $scope.user.id;
+        Pgto.nome = $scope.user.nome;
+        
+        if($scope.master.keyId == null){
+            aPgto.push(Pgto);
+        }else{
+            aPgto[$scope.master.keyId] = Pgto;
+        }
+        
+        PgtoService.save(Pgto, function(data) {
+           $location.path("/pgto");
+        });
+
+        $scope.master = angular.copy(user);
+    };
+
+    $scope.reset = function() {
+        $scope.user = angular.copy($scope.master);
+    };
+
+    $scope.isUnchanged = function(user) {
+        return angular.equals(user, $scope.master);
+    };
+
+    $scope.reset();
+    
 });
 
 meusControllers.controller('EditCategoriaController', function($scope, $routeParams, CategoriaService) {
@@ -110,20 +179,14 @@ meusControllers.controller('addLancController', function($scope, $location, $rou
 
 });
 meusControllers.controller('lancamentoController',
-        function($scope, $location, $routeParams, CategoriaService, PgtoService, LancamentoService) {
-            /*LancamentoService.getAll(function(data) {
-                angular.forEach(data.results, function(value, key) {
-                  //  console.log(value.categoria);
-                    
-                });
-            });*/
+        function($scope, $location, $routeParams, LancamentoService) {
+            LancamentoService.getAll(function(data) {
+                $scope.aListLancamento = getAllLancamentos(data);
+            });
         });
-        
-        
-        
-         Parse.initialize("ezwTgQirFdjt1dnPiidr0nV1eqr9ARiOa3h43CgL", "S64qIhW7OhynJErsvmmYG1dV2nKw2YUk42AckFKK");
-        /*
-        // Declare the types.
+ 
+/*
+// Declare the types.
 var Post = Parse.Object.extend("Post");
 var Comment = Parse.Object.extend("Comment");
  
@@ -141,7 +204,7 @@ myComment.set("parent", myPost);
  
 // This will save both myPost and myComment
 myComment.save();*/
-
+/*
 var Comment = Parse.Object.extend("Comment");
 
 var query = new Parse.Query(Comment);
@@ -150,7 +213,7 @@ var query = new Parse.Query(Comment);
 query.descending("createdAt");
  
 // Only retrieve the last ten
-query.limit(1);
+query.limit(10);
  
 // Include the post data with each comment
 query.include("Post");
@@ -165,13 +228,12 @@ query.find({
     // has been populated. For example:
     for (var i = 0; i < comments.length; i++) {
         console.log(comments[i].get('content'));
-        var Post = comments[i].get('parent').fetch();
-        
-        console.log(Post.get('content'));
-      // This does not require a network access.
-      //var post = comments[i].get("post.nome");
-      
-     // console.log(post);
+        var Post = comments[i].get('parent');
+        Post.fetch({
+            success: function(post) {
+              var title = post.get("title");
+               console.log(title);
+            }
+        });
     }
-  }
-});
+  }});*/

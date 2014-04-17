@@ -15,7 +15,7 @@ services.service('LancamentoService', function($http) {
                   data:data.data,
                   categoria:{"__op":"AddRelation","objects":[{"__type":"Pointer","className":"Categoria","objectId":data.categoria}]},
                   pgto:{"__op":"AddRelation","objects":[{"__type":"Pointer","className":"Pgto","objectId":data.pgto}]}
-                }
+            }
             
         }).success(callback);
     };
@@ -80,6 +80,28 @@ services.service('PgtoService', function($http) {
                 }
             }).success(callback);
         };
+    };
+    this.save = function(data,callback) {
+        
+            if(data.objectId == null){
+                var methodType = "POST";
+                var urlTarget = 'https://api.parse.com/1/classes/Pgto';
+            }else{
+                var methodType = "PUT";
+                var urlTarget = 'https://api.parse.com/1/classes/Pgto/'+data.objectId;
+            }
+            
+            $http({method: methodType,
+                url: urlTarget,
+                headers: {
+                    'X-Parse-Application-Id': 'ezwTgQirFdjt1dnPiidr0nV1eqr9ARiOa3h43CgL',
+                    'X-Parse-REST-API-Key': '8DeetvMlYKqQ3VI6uHp08oOhpBrDsK3eoYXlTsfx'
+                },
+                data:{
+                  nome:data.nome
+                }
+            }).success(callback);
+
     };
     
 });

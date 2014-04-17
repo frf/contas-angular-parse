@@ -14,7 +14,7 @@ app.config(function($routeProvider) {
     $routeProvider.when('/add-lanc', {templateUrl: "add-lancamento.html"});
     $routeProvider.when('/add-lanc/:id', {templateUrl: "add-lancamento.html"});
     $routeProvider.when('/lancamento', {templateUrl: "listar-lanc.html",controller:'lancamentoController'});
-    $routeProvider.when('/add-pgto', {templateUrl: "add-forma-pgto.html"});
+    $routeProvider.when('/add-pgto', {templateUrl: "add-forma-pgto.html",controller: 'EditPgtoController'});
     $routeProvider.when('/add-pgto/:id', {templateUrl: "add-forma-pgto.html",controller: 'EditPgtoController'});
     $routeProvider.when('/pgto', {templateUrl: "pgto.html",controller: "PgtoController"});
     $routeProvider.when('/categoria', {templateUrl: "categoria.html",controller:'CategoriaController'});
